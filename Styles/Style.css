@@ -40,12 +40,18 @@ body {
   visibility: hidden;
 }
 
+.zone {
+  height: 100%;
+  width: 100%;
+}
+
 .element {
   height: 10vh;
   background-color: black;
   width: 10vh;
   z-index: 5;
   position: absolute;
+  border-radius: 100%;
 }
 
 @media (pointer: fine) {

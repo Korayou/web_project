@@ -1,25 +1,21 @@
-function startDrag(e) {
+function startDrag(e, element, zone) {
   console.log("Start Drag");
-  this.ontouchmove = moveDrag;
+  zone.ontouchmove = moveDrag;
 
-  this.ontouchend = function () {
-    this.ontouchmove = null;
-    this.ontouchend = null;
+  zone.ontouchend = function () {
+    element.ontouchmove = null;
+    element.ontouchend = null;
   }
 
-  var pos = [this.offsetLeft, this.offsetTop];
-  console.log("Pos : "+pos);
+  var pos = [element.offsetLeft, element.offsetTop];
   var origin = getCoors(e);
-  console.log("Origin : "+origin);
 
   function moveDrag(e) {
-    console.log("Move Drag !")
     var currentPos = getCoors(e);
-    console.log("Current pos : "+currentPos);
     var deltaX = currentPos[0] - origin[0];
     var deltaY = currentPos[1] - origin[1];
-    this.style.left = (pos[0] + deltaX) + 'px';
-    this.style.top = (pos[1] + deltaY) + 'px';
+    element.style.left = (pos[0] + deltaX) + 'px';
+    element.style.top = (pos[1] + deltaY) + 'px';
     console.log("Déplacement appliqué");
     return false; // cancels scrolling
   }
@@ -38,10 +34,19 @@ function startDrag(e) {
   }
 }
 
-var bubbles = document.getElementsByClassName("element");
-for (let bubble of bubbles){
-  bubble.ontouchstart = startDrag;
+function createNewElement(e){
+  var newElement = document.createElement("div");
+  newElement.classList.add("element");
+  newElement.style.left = e.targetTouches[0].clientX + 'px';
+  newElement.style.top = e.targetTouches[0].clientY + 'px';
+  this.appendChild(newElement);
+  startDrag(e, newElement, this);
+  console.log("nouvel element");
 }
+
+var zone = document.getElementsByClassName("zone");
+zone[0].ontouchstart = createNewElement;
+
 
 document.ongesturechange = function () {
   return false;
