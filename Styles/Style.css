@@ -7,12 +7,12 @@ body {
   height: 100%;
   background-color: plum;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .text-center {
-  size: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,13 +36,16 @@ body {
   background-color: blueviolet;
 }
 
+#alert {
+  visibility: hidden;
+}
+
 .element {
-  height: 40vh;
+  height: 10vh;
   background-color: black;
-  width: 40vh;
+  width: 10vh;
   z-index: 5;
-  color: white;
-  text-align: center;
+  position: absolute;
 }
 
 @media (pointer: fine) {
