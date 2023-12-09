@@ -1,0 +1,64 @@
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  background-color: plum;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-center {
+  size: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+#text {
+  text-align: center;
+  font-size: 300%;
+
+}
+
+#startButton {
+  background-color: aliceblue;
+  margin-block: 5vh;
+}
+  
+#startButton:hover {
+  background-color: blueviolet;
+}
+
+.element {
+  height: 40vh;
+  background-color: black;
+  width: 40vh;
+  z-index: 5;
+  color: white;
+  text-align: center;
+}
+
+@media (pointer: fine) {
+  #startButton {
+    min-height: 5vh;
+    min-width: 20vh;
+    border-width: 1px;
+    font-size: 150%;
+  }
+}
+
+@media (pointer: coarse) {
+  #startButton {
+    min-height: 10vh;
+    min-width: 40vh;
+    border-width: 2px;
+    font-size: 300%;
+  }
+}

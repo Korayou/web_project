@@ -1,0 +1,26 @@
+{
+    "short_name": "FPP",
+    "name": "First Player Picker",
+    "icons": [
+      {
+        "src": "./Assets/dice_192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "./Assets/dice_512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "id": "/?source=pwa",
+    "start_url": "/?source=pwa",
+    "background_color": "#3367D6",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#3367D6",
+    "shortcuts": [],
+    "description": "Help you choose which player should start",
+    "screenshots": []
+  }
+  
