@@ -1,10 +1,9 @@
-function startDrag(e, element, zone) {
+function startDrag(e, element) {
   console.log("Start Drag");
-  zone.ontouchmove = moveDrag;
+  element.ontouchmove = moveDrag;
 
-  zone.ontouchend = function () {
-    element.ontouchmove = null;
-    element.ontouchend = null;
+  element.ontouchend = function () {
+    element.remove();
   }
 
   var pos = [element.offsetLeft, element.offsetTop];
@@ -35,12 +34,20 @@ function startDrag(e, element, zone) {
 }
 
 function createNewElement(e){
-  var newElement = document.createElement("div");
-  newElement.classList.add("element");
-  newElement.style.left = e.targetTouches[0].clientX + 'px';
-  newElement.style.top = e.targetTouches[0].clientY + 'px';
-  this.appendChild(newElement);
-  startDrag(e, newElement, this);
+  // Create a new zone where we can create a new point
+  var newZone = document.createElement("div");
+  newZone.classList.add("zone");
+  document.body.appendChild(newZone);
+  newZone.ontouchstart = createNewElement;
+
+  // Transform the zone to a point
+  this.classList.remove("zone");
+  this.classList.add("element");
+  this.style.backgroundColor = "#000000"
+  this.style.left = e.targetTouches[0].clientX + 'px';
+  this.style.top = e.targetTouches[0].clientY + 'px';
+  
+  startDrag(e, this);
   console.log("nouvel element");
 }
 
