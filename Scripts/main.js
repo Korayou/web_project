@@ -1,7 +1,7 @@
 if (!window.matchMedia(
     '(pointer: none), (pointer: coarse), (pointer: fine)').matches 
     || !(window.ontouchstart 
-    && window.onpointerdown)) {
+    && window.onpointerdown) || !navigator.vibrate) {
     
         //document.getElementById("alert").style.visibility = "visible";
 }

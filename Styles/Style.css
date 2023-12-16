@@ -45,7 +45,7 @@ body {
   width: 100%;
 }
 
-.element {
+.dot {
   height: 10vh;
   width: 10vh;
   z-index: 5;

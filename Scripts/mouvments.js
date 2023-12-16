@@ -1,3 +1,4 @@
+// Handle dots movments
 function startDrag(e, element) {
   console.log("Start Drag");
   element.ontouchmove = moveDrag;
@@ -34,6 +35,8 @@ function startDrag(e, element) {
 }
 
 function createNewElement(e){
+  navigator.vibrate(200);
+
   // Create a new zone where we can create a new point
   var newZone = document.createElement("div");
   newZone.classList.add("zone");
@@ -42,20 +45,47 @@ function createNewElement(e){
 
   // Transform the zone to a point
   this.classList.remove("zone");
-  this.classList.add("element");
-  this.style.backgroundColor = "#000000"
+  this.classList.add("dot");
   this.style.left = e.targetTouches[0].clientX + 'px';
   this.style.top = e.targetTouches[0].clientY + 'px';
+
+  // With a random color
+  var randomColor = Math.floor(Math.random()*16777215).toString(16);
+  this.style.backgroundColor = "#" + randomColor;
   
+  // Remember when the last contact was made
+  var lastInteractionTime = Date.now();
   startDrag(e, this);
-  console.log("nouvel element");
 }
 
-var zone = document.getElementsByClassName("zone");
-zone[0].ontouchstart = createNewElement;
+// Wait for every dots to be the same for a long enough time
+const winning = new Promise((resolve) => {
+  while (true){
+    if (Date.now() - lastInteractionTime >= 3000){
+      resolve()
+    }
+  }
+})
 
+// Select the winning dot
+winning.then(() => {
+  let dots = document.getElementsByClassName("dot");
+  let winningDotNumber = getRandomInt(dots.length);
+  var winningDot = dots[winningDotNumber];
+  declareWinner(winningDot);
+})
+
+
+// Show which color won
+function declareWinner(dot){
+  navigator.vibrate(400);
+  color = dot.style.color;
+  body.style.color = color;
+}
+
+var zones = document.getElementsByClassName("zone");
+zones[0].ontouchstart = createNewElement;
 
 document.ongesturechange = function () {
   return false;
 }
-
