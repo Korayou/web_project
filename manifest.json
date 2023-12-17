@@ -15,10 +15,10 @@
     ],
     "id": "/?source=pwa",
     "start_url": "/?source=pwa",
-    "background_color": "#3367D6",
+    "background_color": "#dda0dd",
     "display": "standalone",
     "scope": "/",
-    "theme_color": "#3367D6",
+    "theme_color": "black",
     "shortcuts": [],
     "description": "Help you choose which player should start",
     "screenshots": []

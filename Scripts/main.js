@@ -3,6 +3,8 @@ if ('ontouchstart' in window) {
         document.getElementById("alert").remove();
 }
 
+var last_dot_clicked = undefined
+
 // Make the choice simulation start
 function setUpChoiceInterface(){
     document.getElementById("main-block").remove();
@@ -14,34 +16,40 @@ function setUpChoiceInterface(){
     let newZone = document.createElement("div");
     newZone.classList.add("zone");
     document.body.appendChild(newZone);
-    newZone.ontouchstart = createNewElement;
+    newZone.ontouchstart = zoneListener;
+}
+
+function zoneListener(e){
+    navigator.vibrate(100);
+
+    transformToDot(e, this);
+    createNewElement(e);
+
+    waitForResults(this);
+}
+
+// Transform the current zone to a point
+function transformToDot(e, zoneToTransform){
+    zoneToTransform.classList.remove("zone");
+    zoneToTransform.classList.add("dot");
+    zoneToTransform.style.left = `calc(${e.targetTouches[0].clientX}px - 10vh)`;
+    zoneToTransform.style.top = `calc(${e.targetTouches[0].clientY}px - 10vh)`;
+  
+    // With a random color
+    var randomColor = Math.floor(Math.random()*16777215).toString(16);
+    zoneToTransform.style.backgroundColor = "#" + randomColor;
+
+    last_dot_clicked = zoneToTransform;
+    startDrag(e, zoneToTransform);
 }
 
 // Create a new touchable zone
 function createNewElement(e){
-    navigator.vibrate(100);
-  
-    // Create a new zone where we can create a new point
     var newZone = document.createElement("div");
     newZone.classList.add("zone");
     document.body.appendChild(newZone);
-    newZone.ontouchstart = createNewElement;
-  
-    // Transform the actual zone to a point
-    this.classList.remove("zone");
-    this.classList.add("dot");
-    this.style.left = e.targetTouches[0].clientX + 'px';
-    this.style.top = e.targetTouches[0].clientY + 'px';
-  
-    // With a random color
-    var randomColor = Math.floor(Math.random()*16777215).toString(16);
-    this.style.backgroundColor = "#" + randomColor;
-    
-    // Start to wait for results
-    waitForResults();
-
-    startDrag(e, this);
-  }
+    newZone.ontouchstart = zoneListener;
+}
 
 // Handle dots movments
 function startDrag(e, element) {
@@ -77,32 +85,35 @@ function startDrag(e, element) {
     }
 }
 
-async function waitForResults() {
-    for (let i = 0; i < 3; i++) {
-        console.log(`Waiting ${i} seconds...`);
-        await sleep(i * 1000);
-    }
-    declareWinner();
-    console.log('Done');
-}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function waitForResults(element) {
+    for (let i = 0; i < 3; i++) {
+        console.log(`Waiting ${i} seconds...`);
+        await sleep(i * 1000);
+    }
+    declareWinner(element);
+    console.log('Done');
+}
+
 // Chose and show which color won
-function declareWinner(){
+function declareWinner(element){
+    if(element != last_dot_clicked)
+        return;
+
     let dots = document.getElementsByClassName("dot");
-    console.log(dots.length)
     if (dots.length >= 1) { 
         let winningDotNumber = Math.floor(Math.random() * dots.length);
         let winningDot = dots[winningDotNumber];
         navigator.vibrate(300);
         let color = winningDot.style.backgroundColor;
         document.body.style.backgroundColor = color;
-        for (let dot of dots){
-            dot.remove();
-        }
+    }
+    while(dots.length > 0){
+        dots[0].remove();
     }
 }
 
