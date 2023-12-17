@@ -12,19 +12,17 @@ body {
   justify-content: space-around;
 }
 
-.text-center {
+#main-block {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: fit-content;
   margin: 0 auto;
 }
 
-#text {
+#title {
   text-align: center;
-  font-size: 300%;
-
 }
 
 #startButton {
@@ -34,10 +32,6 @@ body {
   
 #startButton:hover {
   background-color: blueviolet;
-}
-
-#alert {
-  visibility: hidden;
 }
 
 .zone {
